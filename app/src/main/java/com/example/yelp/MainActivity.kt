@@ -3,6 +3,8 @@ package com.example.yelp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -15,9 +17,17 @@ private const val API_KEY = "eyJv5w7n-Cvy5u4KDEYKuW2FlEtChq3h_X_VTJkqsDqC3LAQ2jS
 
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val rvRestaurants : RecyclerView = findViewById(R.id.rvRestaurants)
+
+        val restaurants = mutableListOf<YelpRestaurants>()
+        val adapter = RestaurantsAdapter(this, restaurants)
+        rvRestaurants.adapter = adapter
+        rvRestaurants.layoutManager = LinearLayoutManager(this)
 
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -28,6 +38,13 @@ class MainActivity : AppCompatActivity() {
         yelpService.searchRestaurants("Bearer $API_KEY","Avocado Toast", "New York").enqueue(object : Callback<YelpSearchResult> {
             override fun onResponse(call: Call<YelpSearchResult>, response: Response<YelpSearchResult>) {
                 Log.i(TAG, "onResponse $response")
+                val body = response.body()
+                if (body == null) {
+                    Log.w(TAG, "Did not receive valid response from Yelp API... exciting")
+                    return
+                }
+                restaurants.addAll(body.restaurants)
+                adapter.notifyDataSetChanged()
             }
 
             override fun onFailure(call: Call<YelpSearchResult>, t: Throwable) {

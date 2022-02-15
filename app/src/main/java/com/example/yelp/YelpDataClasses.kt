@@ -12,7 +12,23 @@ data class YelpRestaurants(
     val name: String,
     val rating: Double,
     val price: String,
-    @SerializedName("url") val website: String,
+    @SerializedName("review_count") val numReviews: Int,
+    @SerializedName("distance") val distanceInMeters: Double,
     @SerializedName("image_url") val image_url: String,
+    val categories: List<YelpCategories>,
+    val location: YelpLocation
+) {
+    fun displayDistance(): String {
+        val milesPerMeter =  0.000621371;
+        val distanceInMiles = "%.2f".format(distanceInMeters * milesPerMeter)
+        return "$distanceInMiles mi"
+    }
+}
 
+data class YelpCategories(
+    val title: String
+)
+
+data class YelpLocation(
+    @SerializedName("address1") val address: String
 )
