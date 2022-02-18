@@ -29,6 +29,9 @@ class MainActivity : AppCompatActivity() {
         rvRestaurants.adapter = adapter
         rvRestaurants.layoutManager = LinearLayoutManager(this)
 
+        // TODO: Finish setting up item XML file using https://www.youtube.com/watch?v=N77gIckGGaU&list=PL7NYbSE8uaBBPVU8RPRKuah_hUFQWCMLR&index=5
+
+
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
