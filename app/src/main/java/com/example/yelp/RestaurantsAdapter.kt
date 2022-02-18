@@ -30,7 +30,7 @@ class RestaurantsAdapter(private val context: Context, private val restaurants: 
     override fun getItemCount() = restaurants.size
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
+//
         private val tvTitle: TextView = itemView.findViewById(R.id.tvTitle)
         private val tvNumReviews: TextView = itemView.findViewById(R.id.tvNumReviews)
         private val tvAddress: TextView = itemView.findViewById(R.id.tvAddress)
@@ -42,13 +42,12 @@ class RestaurantsAdapter(private val context: Context, private val restaurants: 
 
         fun bind(restaurant: YelpRestaurants) {
             tvTitle.text = restaurant.name
-            tvNumReviews.text = restaurant.numReviews.toString()
+            tvNumReviews.text = "${restaurant.numReviews} Reviews"
             tvAddress.text = restaurant.location.address
             tvCategory.text = restaurant.categories[0].title
             tvDistance.text = restaurant.displayDistance()
             tvPrice.text = restaurant.price
             ratingBar.rating = restaurant.rating.toFloat()
-
 
             val radius = 25 // corner radius, higher value = more rounded
             Glide.with(context)
